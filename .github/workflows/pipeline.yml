@@ -3,7 +3,10 @@ name: CI/CD Pipeline para GitHub Pages
 on:
   push:
     branches:
-      - main  # Se activa cuando subes algo a main
+      - main  # Se activa al subir cambios a la rama principal
+
+permissions:
+  contents: write  # Permiso crucial para que el Action cree la rama gh-pages
 
 jobs:
   build-and-deploy:
@@ -13,14 +16,21 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Instalación de dependencias (Build) 🏗️
-        run: |
-          # Si tu proyecto usa npm, descomenta la siguiente línea:
-          # npm install 
-          echo "Instalando dependencias y preparando el build..."
+      - name: Instalación de Node.js 🟢
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-      - name: Deploy a GitHub Pages 🚀
+      - name: Instalación de dependencias 🏗️
+        run: npm install
+
+      - name: Build del proyecto SvelteKit 🚀
+        run: npm run build
+
+      - name: Deploy a GitHub Pages 📂
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: . # Si tu proyecto genera una carpeta 'dist' o 'build', cámbialo aquí
+          folder: build # SvelteKit con adapter-static genera la carpeta 'build'
           branch: gh-pages # Rama donde se publicará el sitio
+          clean: true
