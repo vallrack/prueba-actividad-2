@@ -1,0 +1,26 @@
+name: CI/CD Pipeline para GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Se activa cuando subes algo a main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Instalación de dependencias (Build) 🏗️
+        run: |
+          # Si tu proyecto usa npm, descomenta la siguiente línea:
+          # npm install 
+          echo "Instalando dependencias y preparando el build..."
+
+      - name: Deploy a GitHub Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: . # Si tu proyecto genera una carpeta 'dist' o 'build', cámbialo aquí
+          branch: gh-pages # Rama donde se publicará el sitio
