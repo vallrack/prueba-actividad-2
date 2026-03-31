@@ -1,4 +1,4 @@
-name: CI/CD Pipeline para GitHub Pages
+name: Deploy
 
 on:
   push:
@@ -11,26 +11,23 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Instalación de Node.js 🟢
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - name: Instalación de dependencias 🏗️
+      - name: Install
         run: npm install
 
-      - name: Build del proyecto SvelteKit 🚀
+      - name: Build
         run: npm run build
 
-      - name: Deploy a GitHub Pages 📂
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
           branch: gh-pages
-          clean: true
