@@ -3,10 +3,10 @@ name: CI/CD Pipeline para GitHub Pages
 on:
   push:
     branches:
-      - main  # Se activa al subir cambios a la rama principal
+      - main
 
 permissions:
-  contents: write  # Permiso crucial para que el Action cree la rama gh-pages
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -31,6 +31,6 @@ jobs:
       - name: Deploy a GitHub Pages 📂
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build # SvelteKit con adapter-static genera la carpeta 'build'
-          branch: gh-pages # Rama donde se publicará el sitio
+          folder: build
+          branch: gh-pages
           clean: true
